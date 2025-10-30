@@ -46,6 +46,32 @@ public class App {
             if (resource != null) {
                 System.out.println("Resource parsed successfully");
             }
+
+            // Display validation results
+            System.out.println("\n=== Validation Results ===");
+            if (result.isSuccessful()) {
+                System.out.println("✓ Validation SUCCESSFUL - No errors found");
+            } else {
+                System.out.println("✗ Validation FAILED");
+            }
+
+            // Show all validation messages (errors, warnings, information)
+            if (!result.getMessages().isEmpty()) {
+                System.out.println("\nValidation Messages (" + result.getMessages().size() + " total):");
+                System.out.println("─────────────────────────────────────────────────────────────");
+                result.getMessages().forEach(msg -> {
+                    String severity = msg.getSeverity() != null ? msg.getSeverity().name() : "UNKNOWN";
+                    String location = msg.getLocationString() != null ? msg.getLocationString() : "N/A";
+                    String message = msg.getMessage() != null ? msg.getMessage() : "";
+
+                    System.out.println("\n[" + severity + "]");
+                    System.out.println("Location: " + location);
+                    System.out.println("Message: " + message);
+                });
+                System.out.println("\n─────────────────────────────────────────────────────────────");
+            } else {
+                System.out.println("\nNo validation messages to display.");
+            }
         }
         System.out.println("Done!");
     }
